@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bash_tap_version='1.0.2'
+bash_tap_version='1.0.5'
 
 # Our state.
 
@@ -111,6 +111,7 @@ function has_plan() {
 function skip_all() {
     local reason="${*:?}"
 
+    _bt_plan="skip all"
     _bt_output_plan 0 SKIP "$reason"
 }
 
@@ -237,11 +238,26 @@ function cmp_ok() {
 # Other helper functions
 
 function BAIL_OUT() {
-    echo TODO
+# Note: it is up to the calling shell script to stop testing after this function is called
+
+    local message="$1"
+    _bt_escaped_echo "Bail out! $message"
 }
 
 function skip() {
-    echo TODO
+    local message="$1"
+    local pattern="$2"
+    local name="$3"
+
+    _bt_current_test=$((_bt_current_test + 1))
+
+    if [ -n "$message" ]; then
+        if [ "$_bt_plan" == "skip all" ]; then
+            _bt_escaped_echo "#skip $name"
+        else
+            _bt_escaped_echo "ok # skip $name"
+        fi
+    fi
 }
 
 function todo_skip() {
@@ -263,6 +279,18 @@ function diag() {
 
     if [ -n "$message" ]; then
         _bt_escaped_echo "# $message"
+    fi
+}
+
+function note() {
+    local message="$*"
+
+    if [ -n "$message" ]; then
+       local output=''
+       while IFS= read -r line; do
+          output="$output\n# $line"
+       done <<<"$message"
+       echo -e "# ${output:4}" >&2
     fi
 }
 

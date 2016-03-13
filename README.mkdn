@@ -45,6 +45,9 @@ total_rowsets=2
 
 plan tests $(((columns_per_row * max_rows_per_rowset * total_rowsets) + total_rowsets))
 
+note "This note will be seen with 'prove test.t'"
+diag "This diag will be seen with 'prove -v test.t'"
+
 #  Test data, resultset 1
 results1="artist Assemblage 23
 track Naked (God Module RMX)

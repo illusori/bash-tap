@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. $(dirname $0)/bash-tap-bootstrap
+
+plan tests 3
+
+is "hello" "hello" "plan test 1"
+if [ 1 -eq 1 ]
+then
+  BAIL_OUT "Error, 1 equal 1!"
+  exit
+fi
+is "hello" "hello" "plan test 2"
+like "hello" "hell" "plan test 3"

@@ -1,3 +1,12 @@
+* bash-tap 1.0.4 (2015-05-30-22:05)
+  * Updated skip() function and 'plan skip_all desc'
+  * Updated BAIL_OUT() function.  Test named bailout.t2 and an be 
+    run with 'prove -v t/bailout.t2'.  It will fail, as expected.
+  * Added t/ directory with example tests
+
+* bash-tap 1.0.3 (2015-05-29-23:30)
+  * Add note() function, similar in nature to diag()
+
 * bash-tap 1.0.2 (2013-05-19-00:59)
   * Make bash-tap-mock work with -e.
     Contributed by Daniel Nephin (@dnephin).

@@ -7,7 +7,7 @@
 #    It takes care of finding bash-tap or outputing a usage message.
 #
 
-bash_tap_bootstrap_version='1.0.2'
+bash_tap_bootstrap_version='1.0.3'
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
     # Being run directly, probably by test harness running entire dir.
@@ -16,8 +16,22 @@ if [ "${BASH_SOURCE[0]}" = "$0" ]; then
 fi
 
 if [ -z "$BASH_TAP_ROOT" ]; then
-    #  TODO: search likely locations.
-    BASH_TAP_ROOT="$(dirname ${BASH_SOURCE[0]})/../../bash-tap"
+    BASH_TAP_ROOT="$(dirname ${BASH_SOURCE[0]})/../../"
+fi
+
+
+##### search likely locations.
+
+if [ -f "$HOME/bash-tap/bash-tap" ]; then
+    BASH_TAP_ROOT="$HOME/bash-tap/"
+fi
+
+if [ -f "$HOME/bash-tap" ]; then
+    BASH_TAP_ROOT="$HOME/"
+fi
+
+if [ -f "./bash-tap" ]; then
+    BASH_TAP_ROOT="./"
 fi
 
 if [ -f "$BASH_TAP_ROOT/bash-tap" ]; then
