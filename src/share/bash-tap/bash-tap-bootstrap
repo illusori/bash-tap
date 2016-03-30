@@ -6,6 +6,7 @@
 #      . $(dirname $0)/bash-tap-bootstrap
 #    It takes care of finding bash-tap or outputing a usage message.
 #
+#__BASH_TAP_ROOT_REPLACE__
 
 bash_tap_bootstrap_version='1.0.2'
 

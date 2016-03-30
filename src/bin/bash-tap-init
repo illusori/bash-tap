@@ -1,0 +1,42 @@
+#!/bin/bash
+#set -x -v
+## where does this script live?
+## yes it is all needed to handle symlinks and multiple directories.
+## sets the TOPLEVEL variable
+SOURCE="${BASH_SOURCE[0]}"
+TOPLEVEL="$( dirname "${SOURCE}" )"
+while [ -h "${SOURCE}" ]
+do 
+  SOURCE="$(readlink "${SOURCE}")"
+  [[ ${SOURCE} != /* ]] && SOURCE="${TOPLEVEL}/${SOURCE}"
+  TOPLEVEL="$( cd -P "$( dirname "${SOURCE}"  )" && pwd )"
+done
+TOPLEVEL="$( cd -P "$( dirname "${SOURCE}" )" && pwd )"
+
+# VARS
+TESTDIR=${TESTDIR-t}
+# get the current dir (basename'ish)
+CURRENTDIR=${PWD##*/}
+# set BASH_TAP_ROOT from TOPLEVEL
+export BASH_TAP_ROOT="${TOPLEVEL}/../libexec/bash-tap"
+
+# main function for creating boostrap file
+create_bootstrap_file(){
+  cp -f ${TOPLEVEL}/../share/bash-tap/bash-tap-bootstrap ${1}
+  sed -i "s|^#__BASH_TAP_ROOT_REPLACE__$|BASH_TAP_ROOT=\${BASH_TAP_ROOT-${BASH_TAP_ROOT}}|" ${1}
+}
+
+# Main Function
+# if current dir is '${TESTDIR}' drop file here;
+# else create '${TESTDIR}' if it doesn't and drop bootstrap.
+if [[ ${CURRENTDIR} == "${TESTDIR}" ]]
+then
+  create_bootstrap_file ${CURRENTDIR}/bash-tap-bootstrap
+else
+  if [[ -d "${CURRENTDIR}/${TESTDIR}" ]]
+  then
+    create_bootstrap_file ${TESTDIR}/bash-tap-bootstrap
+  else
+    create_bootstrap_file ${TESTDIR}/bash-tap-bootstrap
+  fi
+fi

@@ -8,12 +8,12 @@
 # the bootstrap by including this line after you've sourced
 # bash-tap-bootstrap:
 #
-#   . "$BASH_TAP_ROOT/bash-tap-mock"
+#   source "$BASH_TAP_ROOT/bash-tap-mock"
 #
 # If you're not using bash-tap-bootstrap then copy this file
 # to your test directory and source it with:
 #
-#   . $(dirname $0)/bash-tap-mock
+#   source $(dirname $0)/bash-tap-mock
 #
 # It's important to note that if you're capturing the arguments
 # passed to your mock function in a variable, and want that
